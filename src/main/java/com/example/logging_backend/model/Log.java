@@ -9,15 +9,24 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "logs")
+@Table(name = "application_logs")
 public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "log_level")
     private String level;
-    private String message;
-    private Timestamp timestamp;
-    private String source;
 
+    @Column(name = "message")
+    private String message;
+
+    @Column(name = "log_timestamp")
+    private Timestamp timestamp;
+
+    @Column(name = "class_name")
+    private String source;  // Log kaynağı (logger)
+
+    @Column(name = "thread_name")
+    private String thread;  // Thread bilgisi
 }
