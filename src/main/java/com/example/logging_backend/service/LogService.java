@@ -14,12 +14,11 @@ public class LogService {
     private LogRepository logRepository;
 
     public List<Log> getAllLogs() {
-        return logRepository.findAll();
+        return logRepository.findAllByOrderByTimestampDesc();
     }
 
-    public List<Log> getLogByLevel(String level)
-    {
-        return logRepository.findbyLevel(level);
+    public List<Log> getLogByLevel(String level) {
+        return logRepository.findByLevelOrderByTimestampDesc(level);
     }
 
 }

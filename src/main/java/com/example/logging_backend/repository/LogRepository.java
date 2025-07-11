@@ -8,7 +8,10 @@ import java.util.List;
 
 @Repository
 public interface LogRepository extends JpaRepository<Log,Long> {
-    List<Log> findbyLevel (String level) ;
+    List<Log> findAllByOrderByTimestampDesc();
+    List<Log> findByLevel (String level) ;
+
+    List<Log> findByLevelOrderByTimestampDesc(String level);
 
 
 }

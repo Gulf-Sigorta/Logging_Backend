@@ -15,12 +15,12 @@ public class LogController {
     private LogService logService;
 
     @GetMapping
-    public List<Log> tumLoglariGetir() {
+    public List<Log> getAllLogs() {
         return logService.getAllLogs();
     }
 
-    @GetMapping ("/get-log-by-level")
-    public List<Log> getLogByLevel(@RequestParam String level) {
+    @GetMapping ("/get-log-by-level/{level}")
+    public List<Log> getLogByLevel(@PathVariable String level) {
         return logService.getLogByLevel(level);
     }
 }
