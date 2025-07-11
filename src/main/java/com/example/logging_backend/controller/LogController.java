@@ -2,6 +2,8 @@ package com.example.logging_backend.controller;
 
 import com.example.logging_backend.model.Log;
 import com.example.logging_backend.service.LogService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +17,12 @@ public class LogController {
     private LogService logService;
 
     @GetMapping
-    public List<Log> getAllLogs() {
-        return logService.getAllLogs();
+    public Page<Log> getAllLogs(Pageable page) {
+        return logService.getAllLogs(page);
     }
 
     @GetMapping ("/get-log-by-level/{level}")
-    public List<Log> getLogByLevel(@PathVariable String level) {
-        return logService.getLogByLevel(level);
+    public Page<Log> getLogByLevel(@PathVariable String level,Pageable pageable) {
+        return logService.getLogsByLevel(level,pageable);
     }
 }
