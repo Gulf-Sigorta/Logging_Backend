@@ -14,11 +14,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // API için CSRF'yi kapatıyoruz (eğer gerekiyorsa)
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        authorizeRequests -> authorizeRequests.anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults()); // Basic auth kullan
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
