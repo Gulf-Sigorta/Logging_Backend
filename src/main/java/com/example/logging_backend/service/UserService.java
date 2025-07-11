@@ -2,6 +2,7 @@ package com.example.logging_backend.service;
 
 import com.example.logging_backend.model.User;
 import com.example.logging_backend.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,20 +16,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
+    public User login(String username, String password) {
+        User user = userRepository.findByUsername(username);
 
-    public User save(User user) {
-        userRepository.save(user);
-        return user;
-    }
+        if (user == null) {
+            throw new UsernameNotFoundException("Hata");
+        }
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Şifre yanlış");
+        }
 
-    public User update(Long id, User user) {
-        Optional<User> oldUser = userRepository.findById(id);
-        oldUser.ifPresent(value -> value.setUsername(user.getUsername()));
-
-        userRepository.save(oldUser.get());
         return user;
     }
 }

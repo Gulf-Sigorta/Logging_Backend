@@ -16,29 +16,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/get-all")
-    public List<User> findAll() {
-        List<User> response = userService.getAll();
-        if (response.isEmpty()) {
-            ResponseEntity.notFound().build();
-            return null;
-        } else {
-            return response;
-        }
-    }
-
-    @PostMapping("/save")
-    public ResponseEntity<User> save(@RequestBody User user) {
-        User savedUser = userService.save(user);
-        return ResponseEntity.ok(savedUser);
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
-        user.setId(id); // Gelen user objesine path’den gelen id’yi set et
-        User response = userService.update(id,user);
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User user) {
+        User response = userService.login(user.getUsername(), user.getPassword());
         return ResponseEntity.ok(response);
     }
-
-
 }
