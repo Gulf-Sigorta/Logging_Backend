@@ -1,19 +1,19 @@
 package com.example.logging_backend.service;
 
-import com.example.logging_backend.model.DenemeLog;
-import com.example.logging_backend.repository.DenemeLogRepository;
+import com.example.logging_backend.model.Log;
+import com.example.logging_backend.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class DenemeLogService {
+public class LogService {
 
     @Autowired
-    private DenemeLogRepository logRepository;
+    private LogRepository logRepository;
 
-    public List<DenemeLog> getAllLogs() {
+    public List<Log> getAllLogs() {
         return logRepository.findAll();
     }
 }
