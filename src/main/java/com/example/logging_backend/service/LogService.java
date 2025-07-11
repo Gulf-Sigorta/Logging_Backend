@@ -16,4 +16,10 @@ public class LogService {
     public List<Log> getAllLogs() {
         return logRepository.findAll();
     }
+
+    public List<Log> getLogByLevel(String level)
+    {
+        return logRepository.findbyLevel(level);
+    }
+
 }

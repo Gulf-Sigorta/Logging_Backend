@@ -18,4 +18,9 @@ public class LogController {
     public List<Log> tumLoglariGetir() {
         return logService.getAllLogs();
     }
+
+    @GetMapping ("/get-log-by-level")
+    public List<Log> getLogByLevel(@RequestParam String level) {
+        return logService.getLogByLevel(level);
+    }
 }
