@@ -1,29 +1,41 @@
 package com.example.logging_backend.service;
 
-import com.example.logging_backend.model.User;
 import com.example.logging_backend.repository.UserRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class UserService {
+
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(AuthenticationManager authenticationManager,
+                       JwtService jwtService,
+                       UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
         this.userRepository = userRepository;
     }
 
-    public User login(String username, String password) {
-        User user = userRepository.findByUsername(username);
+    public String loginAndGenerateToken(String username, String password) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
 
-        if (user == null) {
-            throw new UsernameNotFoundException("Hata");
-        }
-        if (!user.getPassword().equals(password)) {
-            throw new RuntimeException("Şifre yanlış");
-        }
+            var user = userRepository.findByUsername(username);
+            if (user == null) {
+                throw new RuntimeException("Kullanıcı bulunamadı");
+            }
 
-        return user;
+            return jwtService.generateToken(user.getUsername());
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Kullanıcı adı veya şifre hatalı");
+        }
     }
 }

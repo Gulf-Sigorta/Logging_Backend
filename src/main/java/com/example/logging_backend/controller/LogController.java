@@ -1,6 +1,7 @@
 package com.example.logging_backend.controller;
 
 import com.example.logging_backend.model.Log;
+import com.example.logging_backend.model.LogLevelCount;
 import com.example.logging_backend.service.LogService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,5 +25,10 @@ public class LogController {
     @GetMapping ("/get-log-by-level/{level}")
     public Page<Log> getLogByLevel(@PathVariable String level,Pageable pageable) {
         return logService.getLogsByLevel(level,pageable);
+    }
+
+    @GetMapping("/level-counts")
+    public List<LogLevelCount> getLogCounts() {
+        return logService.getLogCountsByLevel();
     }
 }

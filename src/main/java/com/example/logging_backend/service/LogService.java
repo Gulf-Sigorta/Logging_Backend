@@ -1,6 +1,7 @@
 package com.example.logging_backend.service;
 
 import com.example.logging_backend.model.Log;
+import com.example.logging_backend.model.LogLevelCount;
 import com.example.logging_backend.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,10 @@ public class LogService {
 
     public Page<Log> getLogsByLevel(String level,Pageable pageable) {
         return logRepository.findByLevelOrderByTimestampDesc(level, pageable);
+    }
+
+    public List<LogLevelCount> getLogCountsByLevel() {
+        return logRepository.countLogsByLevel();
     }
 
 }
