@@ -1,17 +1,19 @@
 package com.example.logging_backend.service;
 
-import com.example.logging_backend.model.Log;
-import com.example.logging_backend.model.LogLevelCount;
+import com.example.logging_backend.model.Log.Log;
+import com.example.logging_backend.model.Log.LogLevelCount;
 import com.example.logging_backend.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class LogService {
+
 
     @Autowired
     private LogRepository logRepository;
@@ -26,6 +28,14 @@ public class LogService {
 
     public List<LogLevelCount> getLogCountsByLevel() {
         return logRepository.countLogsByLevel();
+    }
+
+    public List<LogLevelCount> getTodayLogCountsByLevel() {
+        return logRepository.countTodayLogsByLevel();
+    }
+
+    public List<LogLevelCount> getLogCountsByLevelFromDate(LocalDateTime startDate) {
+        return logRepository.countLogsByLevelFromDate(startDate);
     }
 
 }

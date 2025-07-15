@@ -1,4 +1,4 @@
-package com.example.logging_backend.model;
+package com.example.logging_backend.model.Log;
 
 import jakarta.persistence.*;
 import lombok.Getter;

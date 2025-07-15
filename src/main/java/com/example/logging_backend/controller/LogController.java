@@ -1,13 +1,15 @@
 package com.example.logging_backend.controller;
 
-import com.example.logging_backend.model.Log;
-import com.example.logging_backend.model.LogLevelCount;
+import com.example.logging_backend.model.Log.Log;
+import com.example.logging_backend.model.Log.LogLevelCount;
 import com.example.logging_backend.service.LogService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -31,4 +33,16 @@ public class LogController {
     public List<LogLevelCount> getLogCounts() {
         return logService.getLogCountsByLevel();
     }
+
+    @GetMapping("/level-counts-today")
+    public List<LogLevelCount> getTodayLogCounts() {
+        return logService.getTodayLogCountsByLevel();
+    }
+
+    @GetMapping("/level-counts-from-date")
+    public List<LogLevelCount> getLogCountsFromDate(@RequestParam String startDate) {
+        LocalDateTime start = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return logService.getLogCountsByLevelFromDate(start);
+    }
+
 }

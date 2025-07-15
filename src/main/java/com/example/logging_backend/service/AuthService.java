@@ -1,6 +1,7 @@
 package com.example.logging_backend.service;
 
-import com.example.logging_backend.repository.UserRepository;
+import com.example.logging_backend.repository.AuthRepository;
+import com.example.logging_backend.util.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -8,18 +9,18 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserService {
+public class AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final AuthRepository authRepository;
 
-    public UserService(AuthenticationManager authenticationManager,
-                       JwtService jwtService,
-                       UserRepository userRepository) {
+    public AuthService(AuthenticationManager authenticationManager,
+                       JwtUtil jwtUtil,
+                       AuthRepository authRepository) {
         this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
+        this.authRepository = authRepository;
     }
 
     public String loginAndGenerateToken(String username, String password) {
@@ -28,14 +29,16 @@ public class UserService {
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
-            var user = userRepository.findByUsername(username);
+            var user = authRepository.findByUsername(username);
             if (user == null) {
                 throw new RuntimeException("Kullanıcı bulunamadı");
             }
 
-            return jwtService.generateToken(user.getUsername());
+            return jwtUtil.generateToken(user.getUsername());
         } catch (AuthenticationException e) {
             throw new RuntimeException("Kullanıcı adı veya şifre hatalı");
         }
     }
+
+
 }
