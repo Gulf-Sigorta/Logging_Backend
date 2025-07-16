@@ -1,10 +1,10 @@
 package com.example.logging_backend.model.Auth;
 
 
-public class UserResponse {
+public class AuthResponse {
     private boolean isAuthenticated;
 
-    public UserResponse(boolean isAuthenticated) {
+    public AuthResponse(boolean isAuthenticated) {
         this.isAuthenticated = isAuthenticated;
     }
 

@@ -1,7 +1,7 @@
 package com.example.logging_backend.controller;
 
 import com.example.logging_backend.model.Auth.AuthRequest;
-import com.example.logging_backend.model.Auth.UserResponse;
+import com.example.logging_backend.model.Auth.AuthResponse;
 import com.example.logging_backend.service.AuthService;
 import com.example.logging_backend.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -54,12 +51,12 @@ public class AuthController {
     @GetMapping("/check")
     public ResponseEntity<?> checkAuth(@CookieValue(name = "jwt", required = false) String token) {
         if (token == null || token.isEmpty()) {
-            return ResponseEntity.ok(new UserResponse(false)); // auth değil
+            return ResponseEntity.ok(new AuthResponse(false)); // auth değil
         }
 
         boolean valid = jwtUtil.validateToken(token);
 
-        return ResponseEntity.ok(new UserResponse(valid));
+        return ResponseEntity.ok(new AuthResponse(valid));
     }
 
 
@@ -69,7 +66,7 @@ public class AuthController {
         cookie.setHttpOnly(true);
         cookie.setSecure(false);
         cookie.setPath("/");
-        cookie.setMaxAge(60*60);
+        cookie.setMaxAge(0);
 
         response.addCookie(cookie);
 
