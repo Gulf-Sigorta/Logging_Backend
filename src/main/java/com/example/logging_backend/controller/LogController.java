@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -41,8 +42,15 @@ public class LogController {
 
     @GetMapping("/level-counts-from-date")
     public List<LogLevelCount> getLogCountsFromDate(@RequestParam String startDate) {
-        LocalDateTime start = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDateTime start = ZonedDateTime.parse(startDate).toLocalDateTime();
         return logService.getLogCountsByLevelFromDate(start);
     }
+
+    @GetMapping("get-logs-today")
+    public List<Log> getLogsFromToday(){
+        return logService.getLogsFromToday();
+    }
+
+
 
 }

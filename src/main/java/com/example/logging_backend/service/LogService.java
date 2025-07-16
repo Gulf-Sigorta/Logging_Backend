@@ -22,7 +22,7 @@ public class LogService {
         return logRepository.findAllByOrderByTimestampDesc(pageable);
     }
 
-    public Page<Log> getLogsByLevel(String level,Pageable pageable) {
+    public Page<Log> getLogsByLevel(String level, Pageable pageable) {
         return logRepository.findByLevelOrderByTimestampDesc(level, pageable);
     }
 
@@ -36,6 +36,10 @@ public class LogService {
 
     public List<LogLevelCount> getLogCountsByLevelFromDate(LocalDateTime startDate) {
         return logRepository.countLogsByLevelFromDate(startDate);
+    }
+
+    public List<Log> getLogsFromToday() {
+        return logRepository.findAllTodayLogs();
     }
 
 }

@@ -28,6 +28,9 @@ public interface LogRepository extends JpaRepository<Log,Long> {
     List<LogLevelCount> countTodayLogsByLevel();
 
 
+    @Query("SELECT l FROM Log l WHERE l.timestamp >= CURRENT_DATE ORDER BY l.timestamp DESC")
+    List<Log> findAllTodayLogs();
+
 
     @Query("SELECT l.level AS level, COUNT(l) AS count " +
             "FROM Log l " +
