@@ -6,8 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,4 +40,10 @@ public interface LogRepository extends JpaRepository<Log,Long> {
             "WHERE l.timestamp >= :startDate " +
             "GROUP BY l.level")
     List<LogLevelCount> countLogsByLevelFromDate(LocalDateTime startDate);
+
+    @Query("SELECT COUNT(l) FROM Log l WHERE l.timestamp >= :since")
+    long countAllLogsSince(@Param("since") Timestamp since);
+
+    @Query("SELECT COUNT(l) FROM Log l WHERE l.level = 'ERROR' AND l.timestamp >= :since")
+    long countErrorLogsSince(@Param("since") Timestamp since);
 }
