@@ -22,8 +22,8 @@ public class EmailService {
     public void sendSimpleEmail(String toEmail, String subject, String body) { // Parametreler eklendi
         SimpleMailMessage message = new SimpleMailMessage();
         // Gönderen mail adresi. application.properties'deki username ile aynı olması önerilir.
-        message.setFrom("eraydumaan57@gmail.com");
-        message.setTo(toEmail); // Dinamik alıcı
+        message.setFrom("Caner.Akduruk@gig.com.tr");
+        message.setTo("Caner.Akduruk@gig.com.tr"); // Dinamik alıcı
         message.setSubject(subject); // Dinamik konu
         message.setText(body); // Dinamik içerik
         mailSender.send(message);

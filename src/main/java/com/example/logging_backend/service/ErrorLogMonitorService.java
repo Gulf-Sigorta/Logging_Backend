@@ -33,11 +33,20 @@ public class ErrorLogMonitorService {
 
         System.out.println("🔄 ErrorLogMonitorService çalıştı. Toplam log: " + totalLogs + ", Error log: " + errorLogs);
 
+        try {
+            System.out.println("📧 Mail gönderiliyor...");
+            emailService.sendSimpleEmail("canakduruk@gmail.com","Başlık","İçerik");
+            System.out.println("✅ Mail gönderildi.");
+        } catch (MailException e) {
+            System.err.println("❌ Mail gönderilemedi: " + e.getMessage());
+            e.printStackTrace();
+        }
+
         if (totalLogs == 0) return; // Bölme hatasından kaçınmak için
 
         double errorPercentage = ((double) errorLogs / totalLogs) * 100;
 
-        if (errorPercentage >= ERROR_THRESHOLD_PERCENT && !alertSent) {
+        if (true) {
             String message = String.format(
                     "Son 10 dakikadaki toplam log: %d\nERROR log sayısı: %d\nHata oranı: %.2f%%\n\nBu oran %d%% normal seviyesinin üzerindedir!",
                     totalLogs, errorLogs, errorPercentage, (int) NORMAL_PERCENT
