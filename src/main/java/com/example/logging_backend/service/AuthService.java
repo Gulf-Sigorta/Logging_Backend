@@ -24,6 +24,8 @@ public class AuthService {
     }
 
     public String loginAndGenerateToken(String username, String password) {
+        System.out.println(username+" "+password);
+
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
