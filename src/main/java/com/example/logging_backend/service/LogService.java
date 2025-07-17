@@ -8,7 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -34,9 +37,16 @@ public class LogService {
         return logRepository.countTodayLogsByLevel();
     }
 
-    public List<LogLevelCount> getLogCountsByLevelFromDate(LocalDateTime startDate) {
-        return logRepository.countLogsByLevelFromDate(startDate);
+    public List<LogLevelCount> getLogCountsByLevelFromDate(LocalDate startDate) {
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+
+        LocalDateTime endDateTime = startDateTime.plusMonths(1).minusSeconds(1);
+
+        System.out.println("Start: " + startDateTime + ", End: " + endDateTime);
+
+        return logRepository.countLogsByLevelFromDate(startDateTime, endDateTime);
     }
+
 
     public List<Log> getLogsFromToday() {
         return logRepository.findAllTodayLogs();

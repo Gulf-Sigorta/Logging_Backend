@@ -34,7 +34,7 @@ public interface LogRepository extends JpaRepository<Log,Long> {
 
     @Query("SELECT l.level AS level, COUNT(l) AS count " +
             "FROM Log l " +
-            "WHERE l.timestamp >= :startDate " +
+            "WHERE l.timestamp >= :startDate AND l.timestamp < :endDate " +
             "GROUP BY l.level")
-    List<LogLevelCount> countLogsByLevelFromDate(LocalDateTime startDate);
+    List<LogLevelCount> countLogsByLevelFromDate(LocalDateTime startDate,LocalDateTime endDate);
 }
