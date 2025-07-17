@@ -7,6 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class AuthService {
@@ -42,5 +44,8 @@ public class AuthService {
         }
     }
 
+    public List<String> getAllUsersEmails() {
+        return authRepository.findAllEmails();
+    }
 
 }
