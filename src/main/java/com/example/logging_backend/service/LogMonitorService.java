@@ -24,6 +24,9 @@ public class LogMonitorService {
     private EmailService emailService;
 
     @Autowired
+    private FcmService fcmService;
+
+    @Autowired
     private AuthService authService;
 
     private boolean alertSent = false;
@@ -81,6 +84,12 @@ public class LogMonitorService {
                 System.out.println(recipients);
                 emailService.sendSimpleEmail(recipients, subject, htmlMessage);
                 System.out.println("✅ Mail gönderildi.");
+                fcmService.sendPushNotificationToTopic(
+                        "log",
+                        "⚠️ Yüksek Hata Oranı",
+                        String.format("Son 10 dakikada hata oranı %.2f%% seviyesinde!", errorPercentage)
+                );
+
             } catch (MailException e) {
                 System.err.println("❌ Mail gönderilemedi: " + e.getMessage());
                 e.printStackTrace();

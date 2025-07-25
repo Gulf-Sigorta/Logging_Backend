@@ -2,6 +2,7 @@ package com.example.logging_backend.controller;
 
 import com.example.logging_backend.model.Log.Log;
 import com.example.logging_backend.model.Log.LogLevelCount;
+import com.example.logging_backend.service.FcmService;
 import com.example.logging_backend.service.LogService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,9 @@ public class LogController {
 
     @Autowired
     private LogService logService;
+
+    @Autowired
+    private FcmService fcmService;
 
     @GetMapping
     public Page<Log> getAllLogs(Pageable page) {
@@ -48,10 +52,9 @@ public class LogController {
         return logService.getLogCountsByLevelFromDate(startDate);
     }
 
-    @GetMapping("get-logs-today")
+    @GetMapping("/get-logs-today")
     public List<Log> getLogsFromToday() {
         return logService.getLogsFromToday();
     }
-
 
 }
