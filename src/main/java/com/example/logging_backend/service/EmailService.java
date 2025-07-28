@@ -24,7 +24,7 @@ public class EmailService {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 
-            helper.setFrom("Caner.Akduruk@gig.com.tr");
+            helper.setFrom("Eray.Duman@gig.com.tr");
             helper.setTo(toAddresses.toArray(new String[0]));
             helper.setSubject(subject);
             helper.setText(body, true); // İkinci parametre true olursa HTML olarak gönderir

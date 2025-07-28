@@ -1,10 +1,13 @@
 package com.example.logging_backend.service;
 
+import com.example.logging_backend.model.Auth.Auth;
+import com.example.logging_backend.repository.AuthRepository;
 import com.example.logging_backend.repository.AuthRepository;
 import com.example.logging_backend.util.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,17 +29,15 @@ public class AuthService {
     }
 
     public String loginAndGenerateToken(String username, String password) {
-        System.out.println(username+" "+password);
+        System.out.println(username + " " + password);
 
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
-            var user = authRepository.findByUsername(username);
-            if (user == null) {
-                throw new RuntimeException("Kullanıcı bulunamadı");
-            }
+            Auth user = authRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
 
             return jwtUtil.generateToken(user.getUsername());
         } catch (AuthenticationException e) {
@@ -44,8 +45,16 @@ public class AuthService {
         }
     }
 
+
+
     public List<String> getAllUsersEmails() {
         return authRepository.findAllEmails();
     }
+
+    public Auth findByUsername(String username) {
+        return authRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Kullanıcı bulunamadı: " + username));
+    }
+
 
 }
