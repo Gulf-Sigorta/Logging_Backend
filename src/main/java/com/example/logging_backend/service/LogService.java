@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -22,34 +20,55 @@ public class LogService {
     private LogRepository logRepository;
 
     public Page<Log> getAllLogs(Pageable pageable) {
-        return logRepository.findAllByOrderByTimestampDesc(pageable);
+        try {
+            return logRepository.findAllByOrderByTimestampDesc(pageable);
+        } catch (Exception e) {
+            throw new RuntimeException("Log sayıları alınırken hata oluştu", e);
+        }
     }
 
     public Page<Log> getLogsByLevel(String level, Pageable pageable) {
-        return logRepository.findByLevelOrderByTimestampDesc(level, pageable);
+        try {
+            return logRepository.findByLevelOrderByTimestampDesc(level, pageable);
+        } catch (Exception e) {
+            throw new RuntimeException("Loglar seviyeye göre getirilirken hata oluştu", e);
+        }
     }
 
     public List<LogLevelCount> getLogCountsByLevel() {
-        return logRepository.countLogsByLevel();
+        try {
+            return logRepository.countLogsByLevel();
+        } catch (Exception e) {
+            throw new RuntimeException("Seviyelere göre log sayıları alınırken hata oluştu", e);
+        }
     }
 
     public List<LogLevelCount> getTodayLogCountsByLevel() {
-        return logRepository.countTodayLogsByLevel();
+        try {
+            return logRepository.countTodayLogsByLevel();
+        } catch (Exception e) {
+            throw new RuntimeException("Bugünün log sayıları alınırken hata oluştu", e);
+        }
     }
 
     public List<LogLevelCount> getLogCountsByLevelFromDate(LocalDate startDate) {
-        LocalDateTime startDateTime = startDate.atStartOfDay();
+        try {
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+            LocalDateTime endDateTime = startDateTime.plusMonths(1).minusSeconds(1);
 
-        LocalDateTime endDateTime = startDateTime.plusMonths(1).minusSeconds(1);
 
-        System.out.println("Start: " + startDateTime + ", End: " + endDateTime);
-
-        return logRepository.countLogsByLevelFromDate(startDateTime, endDateTime);
+            return logRepository.countLogsByLevelFromDate(startDateTime, endDateTime);
+        } catch (Exception e) {
+            throw new RuntimeException("Belirtilen tarihten itibaren log sayıları alınırken hata oluştu", e);
+        }
     }
 
-
     public List<Log> getLogsFromToday() {
-        return logRepository.findAllTodayLogs();
+        try {
+            return logRepository.findAllTodayLogs();
+        } catch (Exception e) {
+            throw new RuntimeException("Bugünün logları alınırken hata oluştu", e);
+        }
     }
 
 }

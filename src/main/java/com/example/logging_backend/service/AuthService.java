@@ -45,7 +45,12 @@ public class AuthService {
     }
 
     public List<String> getAllUsersEmails() {
-        return authRepository.findAllEmails();
+        try {
+            return authRepository.findAllEmails();
+
+        }catch (Exception e) {
+            throw new RuntimeException("Kullanıcılar aranırken hata oluştu!",e);
+        }
     }
 
 }

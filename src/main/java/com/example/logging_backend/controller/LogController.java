@@ -2,7 +2,6 @@ package com.example.logging_backend.controller;
 
 import com.example.logging_backend.model.Log.Log;
 import com.example.logging_backend.model.Log.LogLevelCount;
-import com.example.logging_backend.service.FcmService;
 import com.example.logging_backend.service.LogService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -22,9 +18,6 @@ public class LogController {
 
     @Autowired
     private LogService logService;
-
-    @Autowired
-    private FcmService fcmService;
 
     @GetMapping
     public Page<Log> getAllLogs(Pageable page) {
