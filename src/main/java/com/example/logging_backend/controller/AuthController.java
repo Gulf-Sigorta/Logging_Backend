@@ -30,7 +30,7 @@ public class AuthController {
 
             Cookie cookie = new Cookie("jwt", token);
             cookie.setHttpOnly(true);
-            cookie.setSecure(false); // üretim ortamında true olmalı
+            cookie.setSecure(false);
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60);
             response.addCookie(cookie);

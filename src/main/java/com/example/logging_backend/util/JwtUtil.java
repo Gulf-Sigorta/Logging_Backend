@@ -19,7 +19,7 @@ public class JwtUtil {
 
     private final String SECRET_KEY = "cfaa0aca8b53d249c9370cada7fce8332c5dfeeb91d1a04c8aafe2560c5cf963";
     private final SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-    private final long expirationMs = 24 * 60 * 60 * 1000; // 1 gün
+    private final long expirationMs = 24 * 60 * 60 * 1000;
 
 
     public String generateToken(String email) {
