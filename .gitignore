@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/src/main/resources/gig-logging-firebase-adminsdk-fbsvc-ad627a5343.json
