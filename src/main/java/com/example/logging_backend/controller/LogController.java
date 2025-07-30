@@ -40,10 +40,12 @@ public class LogController {
     }
 
     @GetMapping("/level-counts-from-date")
-    public List<LogLevelCount> getLogCountsFromDate( @RequestParam @DateTimeFormat(pattern = "EEE MMM dd yyyy") LocalDate startDate) {
-
+    public List<LogLevelCount> getLogCountsFromDate(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate
+    ) {
         return logService.getLogCountsByLevelFromDate(startDate);
     }
+
 
     @GetMapping("/get-logs-today")
     public List<Log> getLogsFromToday() {
