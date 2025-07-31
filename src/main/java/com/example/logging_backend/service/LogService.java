@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class LogService {
 
-
     @Autowired
     private LogRepository logRepository;
 
@@ -23,7 +22,7 @@ public class LogService {
         try {
             return logRepository.findAllByOrderByTimestampDesc(pageable);
         } catch (Exception e) {
-            throw new RuntimeException("Log sayıları alınırken hata oluştu", e);
+            throw new RuntimeException("Tüm loglar alınırken hata oluştu", e);
         }
     }
 
@@ -56,7 +55,6 @@ public class LogService {
             LocalDateTime startDateTime = startDate.atStartOfDay();
             LocalDateTime endDateTime = startDateTime.plusMonths(1).minusSeconds(1);
 
-
             return logRepository.countLogsByLevelFromDate(startDateTime, endDateTime);
         } catch (Exception e) {
             throw new RuntimeException("Belirtilen tarihten itibaren log sayıları alınırken hata oluştu", e);
@@ -71,4 +69,27 @@ public class LogService {
         }
     }
 
+    // YENİ: Belirli bir tarihe göre logları getirme metodu
+    public Page<Log> getLogsByDate(LocalDate date, Pageable pageable) {
+        try {
+            LocalDateTime startOfDay = date.atStartOfDay();
+            LocalDateTime endOfDay = date.plusDays(1).atStartOfDay().minusNanos(1); // Gün sonunu milisaniye hassasiyetinde al
+
+            return logRepository.findByTimestampBetweenOrderByTimestampDesc(startOfDay, endOfDay, pageable);
+        } catch (Exception e) {
+            throw new RuntimeException("Belirtilen tarihe göre loglar alınırken hata oluştu", e);
+        }
+    }
+
+    // YENİ: Belirli bir tarih ve seviyeye göre logları getirme metodu
+    public Page<Log> getLogsByDateAndLevel(LocalDate date, String level, Pageable pageable) {
+        try {
+            LocalDateTime startOfDay = date.atStartOfDay();
+            LocalDateTime endOfDay = date.plusDays(1).atStartOfDay().minusNanos(1); // Gün sonunu milisaniye hassasiyetinde al
+
+            return logRepository.findByTimestampBetweenAndLevelOrderByTimestampDesc(startOfDay, endOfDay, level, pageable);
+        } catch (Exception e) {
+            throw new RuntimeException("Belirtilen tarih ve seviyeye göre loglar alınırken hata oluştu", e);
+        }
+    }
 }

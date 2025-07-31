@@ -14,7 +14,7 @@ public class FcmController {
 
     @GetMapping
     public String fcm() {
-        fcmService.sendPushNotificationToTopic("log","ŞAMPİYON FENERBAHÇE","IYYYYEEEEAAAHHHH");
+        fcmService.sendPushNotificationToTopic("log","ŞAMPİYON FENERBAHÇE","CAKDURUK DURMAZ AKAR AKTIĞI YERDE GÜLLER ACAR");
         return "Oldu";
     }
 }

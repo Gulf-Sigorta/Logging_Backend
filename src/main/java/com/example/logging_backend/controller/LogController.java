@@ -46,10 +46,27 @@ public class LogController {
         return logService.getLogCountsByLevelFromDate(startDate);
     }
 
-
     @GetMapping("/get-logs-today")
     public List<Log> getLogsFromToday() {
         return logService.getLogsFromToday();
     }
 
+    // YENİ: Belirli bir tarihe göre logları getirme endpoint'i
+    // URL: /api/log/by-date/{date}
+    @GetMapping("/by-date/{date}")
+    public Page<Log> getLogsByDate(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            Pageable pageable) {
+        return logService.getLogsByDate(date, pageable);
+    }
+
+    // YENİ: Belirli bir tarih ve seviyeye göre logları getirme endpoint'i
+    // URL: /api/log/by-date-and-level/{date}/{level}
+    @GetMapping("/by-date-and-level/{date}/{level}")
+    public Page<Log> getLogsByDateAndLevel(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @PathVariable String level,
+            Pageable pageable) {
+        return logService.getLogsByDateAndLevel(date, level, pageable);
+    }
 }

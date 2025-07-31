@@ -39,19 +39,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/logs/**").authenticated()
-                        .requestMatchers("/api/fcm/**").authenticated()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/v3/api-docs.yaml").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // kaldırdım
 
         return http.build();
     }
+
 
 
     @Bean
@@ -64,4 +59,3 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 }
-

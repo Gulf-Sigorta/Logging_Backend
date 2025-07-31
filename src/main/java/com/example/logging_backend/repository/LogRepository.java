@@ -46,4 +46,11 @@ public interface LogRepository extends JpaRepository<Log,Long> {
 
     @Query("SELECT COUNT(l) FROM Log l WHERE l.level = 'ERROR' AND l.timestamp >= :since")
     long countErrorLogsSince(@Param("since") Timestamp since);
+
+    // YENİ EKLENEN REPOSITORY METOTLARI
+    // Belirli bir zaman aralığındaki logları zaman damgasına göre azalan sırada getir
+    Page<Log> findByTimestampBetweenOrderByTimestampDesc(LocalDateTime start, LocalDateTime end, Pageable pageable);
+
+    // Belirli bir zaman aralığındaki ve belirli bir seviyeye ait logları zaman damgasına göre azalan sırada getir
+    Page<Log> findByTimestampBetweenAndLevelOrderByTimestampDesc(LocalDateTime start, LocalDateTime end, String level, Pageable pageable);
 }
