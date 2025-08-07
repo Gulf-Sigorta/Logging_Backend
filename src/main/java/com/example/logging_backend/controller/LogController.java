@@ -1,5 +1,6 @@
 package com.example.logging_backend.controller;
 
+import com.example.logging_backend.model.HourlyLogCount;
 import com.example.logging_backend.model.Log.Log;
 import com.example.logging_backend.model.Log.LogLevelCount;
 import com.example.logging_backend.service.LogService;
@@ -69,4 +70,11 @@ public class LogController {
             Pageable pageable) {
         return logService.getLogsByDateAndLevel(date, level, pageable);
     }
+
+    @GetMapping("/hourly-counts-today")
+    public List<HourlyLogCount> getHourlyLogCountsToday() {
+        return logService.getHourlyLogCountsForToday();
+    }
+
+
 }

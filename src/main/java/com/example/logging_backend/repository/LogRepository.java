@@ -47,6 +47,16 @@ public interface LogRepository extends JpaRepository<Log,Long> {
     @Query("SELECT COUNT(l) FROM Log l WHERE l.level = 'ERROR' AND l.timestamp >= :since")
     long countErrorLogsSince(@Param("since") Timestamp since);
 
+    @Query("SELECT EXTRACT(HOUR FROM l.timestamp) AS hour, COUNT(l) AS cnt " +
+            "FROM Log l " +
+            "WHERE l.timestamp BETWEEN :start AND :end " +
+            "GROUP BY EXTRACT(HOUR FROM l.timestamp) " +
+            "ORDER BY hour ASC")
+    List<Object[]> countLogsByHour(LocalDateTime start, LocalDateTime end);
+
+
+
+
     // YENİ EKLENEN REPOSITORY METOTLARI
     // Belirli bir zaman aralığındaki logları zaman damgasına göre azalan sırada getir
     Page<Log> findByTimestampBetweenOrderByTimestampDesc(LocalDateTime start, LocalDateTime end, Pageable pageable);
